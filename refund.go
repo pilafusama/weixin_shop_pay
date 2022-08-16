@@ -32,6 +32,7 @@ func (t *Refund) Apply(p *RefundApply) (*RefundApplyResp, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Println("申请退款结果", string(respData))
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -39,7 +40,6 @@ func (t *Refund) Apply(p *RefundApply) (*RefundApplyResp, error) {
 		}
 	}
 
-	log.Println(string(respData))
 	var output RefundApplyResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
