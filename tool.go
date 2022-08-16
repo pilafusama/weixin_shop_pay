@@ -22,6 +22,8 @@ import (
 	"time"
 
 	"github.com/bwmarrin/snowflake"
+	"github.com/youmark/pkcs8"
+	"golang.org/x/crypto/pkcs12"
 )
 
 var tool *Tool
@@ -44,7 +46,15 @@ func (t *Tool) PostRequest(config *Config, urlPath string, dataJsonByte []byte) 
 			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
 		}
 	} else {
-		keyByte = config.KeyBytes
+		privateKey, _, err := pkcs12.Decode(config.KeyBytes, config.SpMchID)
+		if err != nil {
+			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
+		}
+		privateKeyBytes, err := pkcs8.ConvertPrivateKeyToPKCS8(privateKey)
+		if err != nil {
+			return nil, fmt.Errorf("ConvertPrivateKeyToPKCS8失败：%s", err)
+		}
+		keyByte = privateKeyBytes
 	}
 
 	// 签名
@@ -80,7 +90,15 @@ func (t *Tool) GetRequest(config *Config, urlPath string) (*http.Response, error
 			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
 		}
 	} else {
-		keyByte = config.KeyBytes
+		privateKey, _, err := pkcs12.Decode(config.KeyBytes, config.SpMchID)
+		if err != nil {
+			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
+		}
+		privateKeyBytes, err := pkcs8.ConvertPrivateKeyToPKCS8(privateKey)
+		if err != nil {
+			return nil, fmt.Errorf("ConvertPrivateKeyToPKCS8失败：%s", err)
+		}
+		keyByte = privateKeyBytes
 	}
 
 	// 签名
@@ -121,11 +139,12 @@ func (t *Tool) Signature(method string, urlPath string, requestBody string, priv
 func (t *Tool) RsaSignWithSha256(data []byte, privateKey string) (string, error) {
 	block, _ := pem.Decode([]byte(privateKey))
 	if block == nil || block.Type != "PRIVATE KEY" {
-		log.Fatal("failed to decode PEM block containing public key")
+		err := errors.New("failed to decode PEM block containing public key")
+		return "", err
 	}
 	pri, err := x509.ParsePKCS8PrivateKey(block.Bytes)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	h := sha256.New()
 	h.Write(data)

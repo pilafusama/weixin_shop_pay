@@ -10,6 +10,9 @@ import (
 	"os"
 	"path"
 	"strings"
+
+	"github.com/youmark/pkcs8"
+	"golang.org/x/crypto/pkcs12"
 )
 
 // Common 通用接口
@@ -30,7 +33,15 @@ func (t *Common) ImageUpload(p *CommonImageUpload) (*CommonImageUploadResp, erro
 			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
 		}
 	} else {
-		keyByte = t.client.config.KeyBytes
+		privateKey, _, err := pkcs12.Decode(t.client.config.KeyBytes, t.client.config.SpMchID)
+		if err != nil {
+			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
+		}
+		privateKeyBytes, err := pkcs8.ConvertPrivateKeyToPKCS8(privateKey)
+		if err != nil {
+			return nil, fmt.Errorf("ConvertPrivateKeyToPKCS8失败：%s", err)
+		}
+		keyByte = privateKeyBytes
 	}
 
 	// 读取图片内容
