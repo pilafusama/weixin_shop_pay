@@ -276,8 +276,8 @@ type RefundApply struct {
 	SubAppid      string             `json:"sub_appid,omitempty"`      // 二级商户APPID
 	TransactionID string             `json:"transaction_id,omitempty"` // 微信订单号
 	OutTradeNo    string             `json:"out_trade_no,omitempty"`   // 商户订单号
-	OutRefundNo   string             `json:"out_refund_no,omitempty"`  // 商户退款单号
-	Reason        string             `json:"reason"`                   // 退款原因
+	OutRefundNo   string             `json:"out_refund_no"`            // 商户退款单号
+	Reason        string             `json:"reason,omitempty"`         // 退款原因
 	Amount        *RefundApplyAmount `json:"amount"`                   // 订单金额
 	NotifyURL     string             `json:"notify_url"`               // 退款结果回调URL
 }
