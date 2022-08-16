@@ -21,10 +21,16 @@ type Common struct {
 func (t *Common) ImageUpload(p *CommonImageUpload) (*CommonImageUploadResp, error) {
 	var res CommonImageUploadResp
 
-	// 读取私钥文件
-	keyByte, err := ioutil.ReadFile(t.client.config.KeyPath)
-	if err != nil {
-		return nil, fmt.Errorf("私钥文件读取失败：%s", err)
+	var keyByte []byte
+	var err error
+	if t.client.config.KeyPath != "" {
+		// 读取私钥文件
+		keyByte, err = ioutil.ReadFile(t.client.config.KeyPath)
+		if err != nil {
+			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
+		}
+	} else {
+		keyByte = t.client.config.KeyBytes
 	}
 
 	// 读取图片内容

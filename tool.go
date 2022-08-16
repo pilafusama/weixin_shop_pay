@@ -36,10 +36,15 @@ func (t *Tool) PostRequest(config *Config, urlPath string, dataJsonByte []byte) 
 		return nil, err
 	}
 
-	// 读取私钥文件
-	keyByte, err := ioutil.ReadFile(config.KeyPath)
-	if err != nil {
-		return nil, err
+	var keyByte []byte
+	if config.KeyPath != "" {
+		// 读取私钥文件
+		keyByte, err = ioutil.ReadFile(config.KeyPath)
+		if err != nil {
+			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
+		}
+	} else {
+		keyByte = config.KeyBytes
 	}
 
 	// 签名
@@ -67,10 +72,15 @@ func (t *Tool) GetRequest(config *Config, urlPath string) (*http.Response, error
 		return nil, err
 	}
 
-	// 读取私钥文件
-	keyByte, err := ioutil.ReadFile(config.KeyPath)
-	if err != nil {
-		return nil, err
+	var keyByte []byte
+	if config.KeyPath != "" {
+		// 读取私钥文件
+		keyByte, err = ioutil.ReadFile(config.KeyPath)
+		if err != nil {
+			return nil, fmt.Errorf("私钥文件读取失败：%s", err)
+		}
+	} else {
+		keyByte = config.KeyBytes
 	}
 
 	// 签名
