@@ -3,6 +3,7 @@ package weixin_shop_pay
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/pem"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -41,7 +42,8 @@ func (t *Common) ImageUpload(p *CommonImageUpload) (*CommonImageUploadResp, erro
 		if err != nil {
 			return nil, fmt.Errorf("ConvertPrivateKeyToPKCS8失败：%s", err)
 		}
-		keyByte = privateKeyBytes
+		privateKeyPemBytes := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: privateKeyBytes})
+		keyByte = privateKeyPemBytes
 	}
 
 	// 读取图片内容

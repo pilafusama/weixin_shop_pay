@@ -54,7 +54,8 @@ func (t *Tool) PostRequest(config *Config, urlPath string, dataJsonByte []byte) 
 		if err != nil {
 			return nil, fmt.Errorf("ConvertPrivateKeyToPKCS8失败：%s", err)
 		}
-		keyByte = privateKeyBytes
+		privateKeyPemBytes := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: privateKeyBytes})
+		keyByte = privateKeyPemBytes
 	}
 
 	// 签名
@@ -98,7 +99,8 @@ func (t *Tool) GetRequest(config *Config, urlPath string) (*http.Response, error
 		if err != nil {
 			return nil, fmt.Errorf("ConvertPrivateKeyToPKCS8失败：%s", err)
 		}
-		keyByte = privateKeyBytes
+		privateKeyPemBytes := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: privateKeyBytes})
+		keyByte = privateKeyPemBytes
 	}
 
 	// 签名

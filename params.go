@@ -271,15 +271,15 @@ type ProfitSharingFinishOrder struct {
 
 // RefundApply 申请退款
 type RefundApply struct {
-	SubMchid      string             `json:"sub_mchid"`           // 二级商户号
-	SpAppid       string             `json:"sp_appid"`            // 电商平台APPID
-	SubAppid      string             `json:"sub_appid,omitempty"` // 二级商户APPID
-	TransactionID string             `json:"transaction_id"`      // 微信订单号
-	OutOrderNo    string             `json:"out_order_no"`        // 商户订单号
-	OutRefundNo   string             `json:"out_refund_no"`       // 商户退款单号
-	Reason        string             `json:"reason"`              // 退款原因
-	Amount        *RefundApplyAmount `json:"amount"`              // 订单金额
-	NotifyURL     string             `json:"notify_url"`          // 退款结果回调URL
+	SubMchid      string             `json:"sub_mchid"`                // 二级商户号
+	SpAppid       string             `json:"sp_appid"`                 // 电商平台APPID
+	SubAppid      string             `json:"sub_appid,omitempty"`      // 二级商户APPID
+	TransactionID string             `json:"transaction_id,omitempty"` // 微信订单号
+	OutTradeNo    string             `json:"out_trade_no,omitempty"`   // 商户订单号
+	OutRefundNo   string             `json:"out_refund_no"`            // 商户退款单号
+	Reason        string             `json:"reason"`                   // 退款原因
+	Amount        *RefundApplyAmount `json:"amount"`                   // 订单金额
+	NotifyURL     string             `json:"notify_url"`               // 退款结果回调URL
 }
 
 // RefundApplyAmount 申请退款-订单金额
@@ -304,7 +304,7 @@ type RefundQueryByRefundNo struct {
 // BalanceSubMch 二级商户余额查询
 type BalanceSubMch struct {
 	SubMchid string `json:"sub_mchid"` // 二级商户号
-	Date string `json:"date"` // 二级商户号
+	Date     string `json:"date"`      // 二级商户号
 }
 
 // BalanceSubMchResp 二级商户余额查询
