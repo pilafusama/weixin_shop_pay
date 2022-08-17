@@ -30,7 +30,7 @@ type errorResponse struct {
 	Message string
 	Detail  struct {
 		Field    string
-		Value    int
+		Value    interface{}
 		Issue    string
 		Location string
 	}

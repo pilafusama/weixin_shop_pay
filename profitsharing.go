@@ -111,7 +111,7 @@ func (t *ProfitSharing) Apply(p *ProfitSharingApply) (*ProfitSharingApplyResp, e
 func (t *ProfitSharing) Query(p *ProfitSharingQuery) (*ProfitSharingQueryResp, error) {
 
 	// 发起请求
-	urlPath := "/v3/ecommerce/profitsharing/orders"
+	urlPath := "/v3/ecommerce/profitsharing/orders" + "?sub_mchid=" + p.SubMchid + "&transaction_id=" + p.TransactionID + "&out_order_no=" + p.OutOrderNo
 	resp, err := tool.GetRequest(t.client.config, urlPath)
 	if err != nil {
 		return nil, err
