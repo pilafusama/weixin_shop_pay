@@ -2,6 +2,7 @@ package weixin_shop_pay
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 )
@@ -39,6 +40,7 @@ func (t *ProfitSharing) ReceiversAdd(p *ProfitSharingReceiversAdd) (*ProfitShari
 		if err != nil {
 			return nil, err
 		}
+		return nil, errors.New(t.client.errorResponse.Message)
 	}
 
 	var output ProfitSharingReceiversAddResp
@@ -94,6 +96,7 @@ func (t *ProfitSharing) Apply(p *ProfitSharingApply) (*ProfitSharingApplyResp, e
 		if err != nil {
 			return nil, err
 		}
+		return nil, errors.New(t.client.errorResponse.Message)
 	}
 
 	var output ProfitSharingApplyResp
@@ -127,6 +130,7 @@ func (t *ProfitSharing) Query(p *ProfitSharingQuery) (*ProfitSharingQueryResp, e
 		if err != nil {
 			return nil, err
 		}
+		return nil, errors.New(t.client.errorResponse.Message)
 	}
 
 	var output ProfitSharingQueryResp
@@ -165,6 +169,7 @@ func (t *ProfitSharing) FinishOrder(p *ProfitSharingFinishOrder) (*ProfitSharing
 		if err != nil {
 			return nil, err
 		}
+		return nil, errors.New(t.client.errorResponse.Message)
 	}
 
 	var output ProfitSharingFinishOrderResp
@@ -204,6 +209,7 @@ func (t *ProfitSharing) ReturnOrders(p *ProfitSharingReturnOrders) (*ProfitShari
 		if err != nil {
 			return nil, err
 		}
+		return nil, errors.New(t.client.errorResponse.Message)
 	}
 
 	var output ProfitSharingReturnOrdersResp
@@ -236,6 +242,7 @@ func (t *ProfitSharing) ReturnOrdersQuery(p *ProfitSharingReturnOrdersQuery) (*P
 		if err != nil {
 			return nil, err
 		}
+		return nil, errors.New(t.client.errorResponse.Message)
 	}
 
 	var output ProfitSharingReturnOrdersQueryResp
@@ -269,6 +276,7 @@ func (t *ProfitSharing) LeftOrderAmount(p *ProfitSharingLeftOrderAmount) (*Profi
 		if err != nil {
 			return nil, err
 		}
+		return nil, errors.New(t.client.errorResponse.Message)
 	}
 
 	var output ProfitSharingLeftOrderAmountResp
