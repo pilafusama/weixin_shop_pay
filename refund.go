@@ -63,6 +63,7 @@ func (t *Refund) Query(p *RefundQuery) (*RefundQueryResp, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Println("退款查询结果", string(respData))
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -70,7 +71,6 @@ func (t *Refund) Query(p *RefundQuery) (*RefundQueryResp, error) {
 		}
 	}
 
-	log.Println(string(respData))
 	var output RefundQueryResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
@@ -96,6 +96,7 @@ func (t *Refund) QueryByRefundNo(p *RefundQueryByRefundNo) (*RefundQueryResp, er
 	if err != nil {
 		return nil, err
 	}
+	log.Println("退款查询结果", string(respData))
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -103,7 +104,6 @@ func (t *Refund) QueryByRefundNo(p *RefundQueryByRefundNo) (*RefundQueryResp, er
 		}
 	}
 
-	log.Println(string(respData))
 	var output RefundQueryResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {

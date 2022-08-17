@@ -1,6 +1,9 @@
 package weixin_shop_pay
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"log"
+)
 
 // NewClient 创建客户端
 func NewClient(config *Config) *Client {
@@ -31,6 +34,15 @@ type errorResponse struct {
 		Issue    string
 		Location string
 	}
+}
+
+type T struct {
+	Code   string `json:"code"`
+	Detail struct {
+		Location string `json:"location"`
+		Value    int    `json:"value"`
+	} `json:"detail"`
+	Message string `json:"message"`
 }
 
 // Pay 普通支付
@@ -78,6 +90,7 @@ func (t *Client) setErrorResponse(resp []byte) error {
 	var errorResponse *errorResponse
 	err := json.Unmarshal(resp, errorResponse)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	t.errorResponse = errorResponse

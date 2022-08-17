@@ -32,6 +32,8 @@ func (t *ProfitSharing) ReceiversAdd(p *ProfitSharingReceiversAdd) (*ProfitShari
 	if err != nil {
 		return nil, err
 	}
+	log.Println("添加分账接收方结果", string(respData))
+
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -39,7 +41,6 @@ func (t *ProfitSharing) ReceiversAdd(p *ProfitSharingReceiversAdd) (*ProfitShari
 		}
 	}
 
-	log.Println(string(respData))
 	var output ProfitSharingReceiversAddResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
@@ -55,8 +56,8 @@ func (t *ProfitSharing) Apply(p *ProfitSharingApply) (*ProfitSharingApplyResp, e
 
 	// 加密接收方姓名
 	for index, receiver := range p.Receivers {
-		log.Println("ReceiverName加密", receiver.ReceiverName)
 		if receiver.ReceiverName != "" {
+			log.Println("ReceiverName加密", receiver.ReceiverName)
 			p.Receivers[index].ReceiverName, err = tool.Encrypt(receiver.ReceiverName, t.client.config.PlatformPublicKey)
 			if err != nil {
 				return nil, err
@@ -69,7 +70,6 @@ func (t *ProfitSharing) Apply(p *ProfitSharingApply) (*ProfitSharingApplyResp, e
 	if err != nil {
 		return nil, err
 	}
-	log.Println("分账请求参数", string(dataJsonByte))
 	// 发起请求
 	urlPath := "/v3/ecommerce/profitsharing/orders"
 	resp, err := tool.PostRequest(t.client.config, urlPath, dataJsonByte)
@@ -86,6 +86,9 @@ func (t *ProfitSharing) Apply(p *ProfitSharingApply) (*ProfitSharingApplyResp, e
 		log.Println("读取分账结果错误", err.Error())
 		return nil, err
 	}
+
+	log.Println("请求分账结果", string(respData))
+
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -93,7 +96,6 @@ func (t *ProfitSharing) Apply(p *ProfitSharingApply) (*ProfitSharingApplyResp, e
 		}
 	}
 
-	log.Println(string(respData))
 	var output ProfitSharingApplyResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
@@ -117,6 +119,9 @@ func (t *ProfitSharing) Query(p *ProfitSharingQuery) (*ProfitSharingQueryResp, e
 	if err != nil {
 		return nil, err
 	}
+
+	log.Println("分账查询结果", string(respData))
+
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -124,7 +129,6 @@ func (t *ProfitSharing) Query(p *ProfitSharingQuery) (*ProfitSharingQueryResp, e
 		}
 	}
 
-	log.Println(string(respData))
 	var output ProfitSharingQueryResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
@@ -154,6 +158,8 @@ func (t *ProfitSharing) FinishOrder(p *ProfitSharingFinishOrder) (*ProfitSharing
 	if err != nil {
 		return nil, err
 	}
+
+	log.Println("完结分账结果", string(respData))
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -161,7 +167,6 @@ func (t *ProfitSharing) FinishOrder(p *ProfitSharingFinishOrder) (*ProfitSharing
 		}
 	}
 
-	log.Println(string(respData))
 	var output ProfitSharingFinishOrderResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
@@ -191,6 +196,9 @@ func (t *ProfitSharing) ReturnOrders(p *ProfitSharingReturnOrders) (*ProfitShari
 	if err != nil {
 		return nil, err
 	}
+
+	log.Println("分账回退结果", string(respData))
+
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -198,7 +206,6 @@ func (t *ProfitSharing) ReturnOrders(p *ProfitSharingReturnOrders) (*ProfitShari
 		}
 	}
 
-	log.Println(string(respData))
 	var output ProfitSharingReturnOrdersResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
@@ -222,6 +229,8 @@ func (t *ProfitSharing) ReturnOrdersQuery(p *ProfitSharingReturnOrdersQuery) (*P
 	if err != nil {
 		return nil, err
 	}
+	log.Println("分账回退查询结果", string(respData))
+
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -229,7 +238,6 @@ func (t *ProfitSharing) ReturnOrdersQuery(p *ProfitSharingReturnOrdersQuery) (*P
 		}
 	}
 
-	log.Println(string(respData))
 	var output ProfitSharingReturnOrdersQueryResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
@@ -253,6 +261,9 @@ func (t *ProfitSharing) LeftOrderAmount(p *ProfitSharingLeftOrderAmount) (*Profi
 	if err != nil {
 		return nil, err
 	}
+
+	log.Println("查询订单剩余待分金额结果", string(respData))
+
 	if resp.StatusCode != 200 {
 		err := t.client.setErrorResponse(respData)
 		if err != nil {
@@ -260,7 +271,6 @@ func (t *ProfitSharing) LeftOrderAmount(p *ProfitSharingLeftOrderAmount) (*Profi
 		}
 	}
 
-	log.Println(string(respData))
 	var output ProfitSharingLeftOrderAmountResp
 	err = json.Unmarshal(respData, &output)
 	if err != nil {
