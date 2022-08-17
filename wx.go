@@ -78,7 +78,7 @@ func (t *Client) Cert() *Cert {
 
 // setErrorResponse 设置错误响应信息
 func (t *Client) setErrorResponse(resp []byte) error {
-	var errResp *errorResponse
+	errResp := new(errorResponse)
 	err := json.Unmarshal(resp, errResp)
 	if err != nil {
 		log.Println(err)
